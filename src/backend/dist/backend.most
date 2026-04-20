@@ -1,0 +1,102 @@
+// Version: 1.0.0
+type Category__951250105 =
+  {#Dupatta; #Kameez; #Kurti; #Lehenga; #Other; #Salwar; #Saree};
+type ContactMessage__84138439 =
+  {
+    createdAt : Timestamp__301639476;
+    email : Text;
+    id : Nat;
+    message : Text;
+    name : Text;
+    phone : Text
+  };
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type ExternalBlob__246066408 = Blob;
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type Map__158565046<K, V> = Map__297112838<K, V>;
+type Map__297112838<K, V> =
+  {var root : Node__46230540<K, V>; var size : Nat__490723111};
+type Map__605269027<K, V> = Map__158565046<K, V>;
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type OrderId__559018581 = Nat;
+type OrderStatus__591380551 = {#Cancelled; #Paid; #Pending};
+type Order__720360493 =
+  {
+    buyerName : Text;
+    buyerPrincipal : ?Principal;
+    createdAt : Int;
+    id : OrderId__559018581;
+    productId : Nat;
+    quantity : Nat;
+    shopId : Nat;
+    status : OrderStatus__591380551;
+    stripeSessionId : Text;
+    totalAmount : Nat
+  };
+type ProductId__825579717 = Nat;
+type Product__247116600 =
+  {
+    category : Category__951250105;
+    createdAt : Int;
+    description : Text;
+    id : ProductId__825579717;
+    imageKey : ExternalBlob__246066408;
+    name : Text;
+    price : Nat;
+    shopId : Nat;
+    stock : Nat
+  };
+type ShopId__535700176 = Nat;
+type Shop__160406871 =
+  {
+    createdAt : Int;
+    description : Text;
+    id : ShopId__535700176;
+    location : Text;
+    name : Text;
+    ownerId : Principal;
+    phone : Text;
+    whatsappNumber : Text
+  };
+type StripeConfiguration__96897619 =
+  {allowedCountries : [Text]; secretKey : Text};
+type Timestamp__301639476 = Int;
+type UserRole__1054455867 = {#admin; #guest; #user};
+actor {
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__605269027<Principal, UserRole__1054455867>
+    };
+  stable contactCounter : {var value : Nat};
+  stable contactMessages :
+    {
+      var root : Node__46230540<Nat, ContactMessage__84138439>;
+      var size : Nat__490723111
+    };
+  stable orderCounter : {var value : Nat};
+  stable orders :
+    {
+      var root : Node__46230540<Nat, Order__720360493>;
+      var size : Nat__490723111
+    };
+  stable productCounter : {var value : Nat};
+  stable products :
+    {
+      var root : Node__46230540<Nat, Product__247116600>;
+      var size : Nat__490723111
+    };
+  stable shopCounter : {var value : Nat};
+  stable shops :
+    {
+      var root : Node__46230540<Nat, Shop__160406871>;
+      var size : Nat__490723111
+    };
+  stable var stripeConfig : ?StripeConfiguration__96897619
+};

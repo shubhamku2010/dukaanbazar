@@ -1,0 +1,23 @@
+{
+  "overview": "DukaanBazar is a professional multi-vendor local clothing marketplace where shop owners can list their sarees, kurtis, lehengas and more, and customers can browse, search, and order from local shops online.",
+  "features": [
+    "Multi-vendor shop pages with product listings",
+    "Search and filter by category and price",
+    "Stripe online payment and WhatsApp ordering",
+    "Seller dashboard to manage products and orders",
+    "Customer order history and payment confirmation",
+    "About and Contact pages for trust and engagement"
+  ],
+  "category": "marketplace",
+  "tags": [
+    "marketplace",
+    "clothing",
+    "multi-vendor",
+    "local-business",
+    "india",
+    "saree",
+    "kurti",
+    "lehenga"
+  ],
+  "last_updated": "2026-04-19T04:15:12.174Z"
+}

@@ -1,0 +1,196 @@
+type http_request_result = 
+ record {
+   body: blob;
+   headers: vec http_header;
+   status: nat;
+ };
+type http_header = 
+ record {
+   name: text;
+   value: text;
+ };
+type _ImmutableObjectStorageRefillResult = 
+ record {
+   success: opt bool;
+   topped_up_amount: opt nat;
+ };
+type _ImmutableObjectStorageRefillInformation = record {
+                                                  proposed_top_up_amount:
+                                                   opt nat;};
+type _ImmutableObjectStorageCreateCertificateResult = 
+ record {
+   blob_hash: text;
+   method: text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type TransformationOutput = 
+ record {
+   body: blob;
+   headers: vec http_header;
+   status: nat;
+ };
+type TransformationInput = 
+ record {
+   context: blob;
+   response: http_request_result;
+ };
+type Timestamp = int;
+type StripeSessionStatus = 
+ variant {
+   completed: record {
+                response: text;
+                userPrincipal: opt text;
+              };
+   failed: record {error: text;};
+ };
+type StripeConfiguration = 
+ record {
+   allowedCountries: vec text;
+   secretKey: text;
+ };
+type ShoppingItem = 
+ record {
+   currency: text;
+   priceInCents: nat;
+   productDescription: text;
+   productName: text;
+   quantity: nat;
+ };
+type ShopInput = 
+ record {
+   description: text;
+   location: text;
+   name: text;
+   phone: text;
+   whatsappNumber: text;
+ };
+type ShopId = nat;
+type Shop = 
+ record {
+   createdAt: int;
+   description: text;
+   id: ShopId;
+   location: text;
+   name: text;
+   ownerId: principal;
+   phone: text;
+   whatsappNumber: text;
+ };
+type ProductInput = 
+ record {
+   category: Category;
+   description: text;
+   imageKey: ExternalBlob;
+   name: text;
+   price: nat;
+   shopId: nat;
+   stock: nat;
+ };
+type ProductId = nat;
+type Product = 
+ record {
+   category: Category;
+   createdAt: int;
+   description: text;
+   id: ProductId;
+   imageKey: ExternalBlob;
+   name: text;
+   price: nat;
+   shopId: nat;
+   stock: nat;
+ };
+type OrderStatus = 
+ variant {
+   Cancelled;
+   Paid;
+   Pending;
+ };
+type OrderInput = 
+ record {
+   buyerName: text;
+   productId: nat;
+   quantity: nat;
+   shopId: nat;
+ };
+type OrderId = nat;
+type Order = 
+ record {
+   buyerName: text;
+   buyerPrincipal: opt principal;
+   createdAt: int;
+   id: OrderId;
+   productId: nat;
+   quantity: nat;
+   shopId: nat;
+   status: OrderStatus;
+   stripeSessionId: text;
+   totalAmount: nat;
+ };
+type ExternalBlob = blob;
+type ContactMessage = 
+ record {
+   createdAt: Timestamp;
+   email: text;
+   id: nat;
+   message: text;
+   name: text;
+   phone: text;
+ };
+type Category = 
+ variant {
+   Dupatta;
+   Kameez;
+   Kurti;
+   Lehenga;
+   Other;
+   Salwar;
+   Saree;
+ };
+service : {
+  _immutableObjectStorageBlobsAreLive: (hashes: vec blob) -> (vec bool) query;
+  _immutableObjectStorageBlobsToDelete: () -> (vec blob) query;
+  _immutableObjectStorageConfirmBlobDeletion: (blobs: vec blob) -> ();
+  _immutableObjectStorageCreateCertificate: (blobHash: text) ->
+   (_ImmutableObjectStorageCreateCertificateResult);
+  _immutableObjectStorageRefillCashier: (refillInformation:
+   opt _ImmutableObjectStorageRefillInformation) ->
+   (_ImmutableObjectStorageRefillResult);
+  _immutableObjectStorageUpdateGatewayPrincipals: () -> ();
+  _initializeAccessControl: () -> ();
+  addProduct: (input: ProductInput) -> (Product);
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  createCheckoutSession: (items: vec ShoppingItem, successUrl: text,
+   cancelUrl: text) -> (text);
+  createOrder: (input: OrderInput, successUrl: text, cancelUrl: text) ->
+   (text);
+  createShop: (input: ShopInput) -> (Shop);
+  deleteProduct: (productId: nat) -> ();
+  getAllProducts: () -> (vec Product) query;
+  getAllShops: () -> (vec Shop) query;
+  getCallerUserRole: () -> (UserRole) query;
+  getMyOrders: () -> (vec Order) query;
+  getMyShop: () -> (opt Shop) query;
+  getProductById: (productId: nat) -> (opt Product) query;
+  getShopById: (shopId: nat) -> (opt Shop) query;
+  getShopProducts: (shopId: nat) -> (vec Product) query;
+  getStripeSessionStatus: (sessionId: text) -> (StripeSessionStatus);
+  isCallerAdmin: () -> (bool) query;
+  isStripeConfigured: () -> (bool) query;
+  searchProducts: (keyword: text, category: opt Category, minPrice: opt nat,
+   maxPrice: opt nat) -> (vec Product) query;
+  setStripeConfiguration: (config: StripeConfiguration) -> ();
+  submitContactForm: (name: text, email: text, phone: text, message: 
+   text) -> (variant {
+               err: text;
+               ok: ContactMessage;
+             });
+  transform: (input: TransformationInput) -> (TransformationOutput) query;
+  updateOrderStatus: (orderId: nat, status: OrderStatus) -> (Order);
+  updateProduct: (productId: nat, input: ProductInput) -> (Product);
+  updateShop: (shopId: nat, input: ShopInput) -> (Shop);
+}

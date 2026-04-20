@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-display: "Fraunces";
+    --font-body: "General Sans";
+    --font-mono: "Geist Mono";
+    --radius: 0.625rem;
+
+    --background: 0.968 0.015 75;
+    --foreground: 0.18 0.025 45;
+    --card: 0.99 0.008 75;
+    --card-foreground: 0.18 0.025 45;
+    --popover: 0.99 0.008 75;
+    --popover-foreground: 0.18 0.025 45;
+
+    --primary: 0.48 0.14 30;
+    --primary-foreground: 0.96 0.01 75;
+
+    --secondary: 0.92 0.018 75;
+    --secondary-foreground: 0.28 0.025 45;
+    --muted: 0.92 0.018 75;
+    --muted-foreground: 0.48 0.015 60;
+
+    --accent: 0.62 0.12 70;
+    --accent-foreground: 0.96 0.01 75;
+
+    --destructive: 0.55 0.22 25;
+    --destructive-foreground: 0.98 0 0;
+
+    --border: 0.88 0.018 75;
+    --input: 0.88 0.018 75;
+    --ring: 0.48 0.14 30;
+
+    --chart-1: 0.48 0.14 30;
+    --chart-2: 0.62 0.12 70;
+    --chart-3: 0.65 0.15 10;
+    --chart-4: 0.55 0.16 190;
+    --chart-5: 0.6 0.14 160;
+
+    --sidebar: 0.96 0.01 75;
+    --sidebar-foreground: 0.18 0.025 45;
+    --sidebar-primary: 0.48 0.14 30;
+    --sidebar-primary-foreground: 0.96 0.01 75;
+    --sidebar-accent: 0.92 0.018 75;
+    --sidebar-accent-foreground: 0.28 0.025 45;
+    --sidebar-border: 0.88 0.018 75;
+    --sidebar-ring: 0.48 0.14 30;
+  }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+}
+
+@font-face {
+  font-family: "Fraunces";
+  src: url("/assets/fonts/Fraunces.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "General Sans";
+  src: url("/assets/fonts/GeneralSans.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url("/assets/fonts/GeistMono.woff2") format("woff2");
+  font-display: swap;
+}
+
+@layer utilities {
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .font-display {
+    font-family: var(--font-display), Georgia, serif;
+  }
+  .font-body {
+    font-family: var(--font-body), system-ui, sans-serif;
+  }
+  .font-mono {
+    font-family: var(--font-mono), monospace;
+  }
+  .shadow-subtle {
+    box-shadow: 0 1px 3px 0 oklch(var(--foreground) / 0.08), 0 1px 2px -1px
+      oklch(var(--foreground) / 0.06);
+  }
+  .shadow-card {
+    box-shadow: 0 2px 8px 0 oklch(var(--foreground) / 0.08), 0 1px 3px -1px
+      oklch(var(--foreground) / 0.06);
+  }
+}
